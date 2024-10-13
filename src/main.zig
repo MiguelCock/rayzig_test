@@ -12,6 +12,10 @@ pub fn main() anyerror!void {
 
     const val = rl.loadTexture("resources/character/vale.png");
     defer val.unload();
+    const green = rl.loadTexture("resources/map_tiles/green.png");
+    defer green.unload();
+    const yellow = rl.loadTexture("resources/map_tiles/yellow.png");
+    defer yellow.unload();
 
     var pos = rl.Vector2.init(400, 225);
     var vel = rl.Vector2.init(2, -5);
@@ -26,12 +30,10 @@ pub fn main() anyerror!void {
 
         rl.clearBackground(rl.Color.white);
 
-        bg.draw();
+        bg.drawCheckers(green, yellow);
 
         //rl.drawText("Congrats! You created your first window!", 190, 200, 20, rl.Color.light_gray);
 
-        rl.drawCircleV(pos, 20, rl.Color.dark_gray);
-
-        rl.drawTextureEx(val, pos, 0, 1, rl.Color.white);
+        val.drawEx(pos.add(rl.Vector2.init(-32, -32)), 0, 0.5, rl.Color.white);
     }
 }
