@@ -12,6 +12,8 @@ pub fn main() anyerror!void {
 
     const val = rl.loadTexture("resources/character/vale.png");
     defer val.unload();
+    const rat = rl.loadTexture("resources/character/rat.png");
+    defer rat.unload();
     const green = rl.loadTexture("resources/map_tiles/green.png");
     defer green.unload();
     const yellow = rl.loadTexture("resources/map_tiles/yellow.png");
@@ -21,9 +23,19 @@ pub fn main() anyerror!void {
     var vel = rl.Vector2.init(2, -5);
     const acc = rl.Vector2.init(0, 0.1);
 
+    var rat_pos = rl.Vector2.init(0, 0);
+
     while (!rl.windowShouldClose()) {
         pos = pos.add(vel);
         vel = vel.add(acc);
+
+        switch (rl.getKeyPressed()) {
+            rl.KeyboardKey.key_a => rat_pos.x -= 64,
+            rl.KeyboardKey.key_d => rat_pos.x += 64,
+            rl.KeyboardKey.key_s => rat_pos.y += 64,
+            rl.KeyboardKey.key_w => rat_pos.y -= 64,
+            else => {},
+        }
 
         rl.beginDrawing();
         defer rl.endDrawing();
@@ -35,5 +47,7 @@ pub fn main() anyerror!void {
         //rl.drawText("Congrats! You created your first window!", 190, 200, 20, rl.Color.light_gray);
 
         val.drawEx(pos.add(rl.Vector2.init(-32, -32)), 0, 0.5, rl.Color.white);
+
+        rat.drawEx(rat_pos, 0, 1, rl.Color.white);
     }
 }
