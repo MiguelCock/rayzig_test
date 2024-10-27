@@ -52,7 +52,7 @@ pub fn middle(tex: rl.Texture2D, offset: rl.Vector2) void {
     while (i < 16) {
         var j: f32 = 0;
         while (j < 6) {
-            tex.drawEx(rl.Vector2.init(i * 64, 384 + (j * 64)).add(offset), 0, 4, rl.Color.init(255, 255, 255, 120));
+            tex.drawEx(rl.Vector2.init(i * 16 * 3.5, 384 + (j * 16 * 3.5)).add(offset), 0, 3.5, rl.Color.init(255, 255, 255, 120));
             j += 1;
         }
         i += 1;
@@ -64,7 +64,7 @@ pub fn back(tex: rl.Texture2D, offset: rl.Vector2) void {
     while (i < 16) {
         var j: f32 = 0;
         while (j < 6) {
-            tex.drawEx(rl.Vector2.init(i * 64, 384 + (j * 64)).add(offset), 0, 4, rl.Color.white);
+            tex.drawEx(rl.Vector2.init(i * 16 * 3, 384 + (j * 16 * 3)).add(offset), 0, 3, rl.Color.white);
             j += 1;
         }
         i += 1;

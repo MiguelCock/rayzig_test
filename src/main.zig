@@ -1,6 +1,7 @@
 const rl = @import("raylib");
 const bg = @import("back_ground.zig");
 const ply = @import("player.zig");
+const uty = @import("utility.zig");
 
 pub fn main() anyerror!void {
     const screenWidth = 1020;
@@ -13,8 +14,8 @@ pub fn main() anyerror!void {
 
     const rat = rl.loadTexture("resources/character/ratt.png");
     defer rat.unload();
-    const frog = rl.loadTexture("resources/character/rati.png");
-    defer frog.unload();
+    const rat2 = rl.loadTexture("resources/character/rati.png");
+    defer rat2.unload();
 
     //const green = rl.loadTexture("resources/map_tiles/green_2.png");
     //defer green.unload();
@@ -31,27 +32,29 @@ pub fn main() anyerror!void {
     defer front.unload();
 
     var rat_pos = rl.Vector2.init(0, 0);
-    var frog_pos = rl.Vector2.init(400, 400);
 
     var camera = rl.Camera2D{
         .offset = rl.Vector2.init(screenWidth / 2, screenHeight / 2),
-        .target = frog_pos,
+        .target = rat_pos,
         .rotation = 0,
         .zoom = 1,
     };
 
     var dist = rl.Vector2.init(0, 0);
+    var len: f32 = 0;
+    var speed: f32 = 10;
 
     while (!rl.windowShouldClose()) {
-        dist = rat_pos.add(frog_pos.negate());
+        dist = rat_pos.add(camera.target.negate());
+        len = dist.length();
 
-        if (dist.x < 1 or dist.x > -1 and dist.y < 1 or dist.y > -1) {
-            frog_pos = rl.Vector2.init(0, 0);
+        speed = uty.lerp(0, len, 0.15);
+
+        if (len < 6) {
+            camera.target = rat_pos;
         } else {
-            frog_pos = frog_pos.add(dist).normalize().scale(10);
+            camera.target = camera.target.add(dist.normalize().scale(speed));
         }
-
-        camera.target = frog_pos;
 
         ply.controls(&rat_pos);
 
@@ -67,7 +70,7 @@ pub fn main() anyerror!void {
         bg.middle(middle, rl.Vector2.init(0, 0));
         bg.front(front, rl.Vector2.init(0, 0));
 
-        frog.drawEx(frog_pos, 0, 4, rl.Color.white);
+        rat2.drawEx(camera.target, 0, 4, rl.Color.white);
 
         rat.drawEx(rat_pos, 0, 4, rl.Color.white);
     }

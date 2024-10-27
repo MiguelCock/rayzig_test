@@ -5,17 +5,19 @@ pub const player = struct {
     texture: rl.Texture2D,
 };
 
+const speed: f32 = 15;
+
 pub fn controls(pos: *rl.Vector2) void {
     if (rl.isKeyDown(rl.KeyboardKey.key_a)) {
-        pos.x -= 10;
+        pos.x -= speed;
     }
     if (rl.isKeyDown(rl.KeyboardKey.key_d)) {
-        pos.x += 10;
+        pos.x += speed;
     }
     if (rl.isKeyDown(rl.KeyboardKey.key_w)) {
-        pos.y -= 10;
+        pos.y -= speed;
     }
     if (rl.isKeyDown(rl.KeyboardKey.key_s)) {
-        pos.y += 10;
+        pos.y += speed;
     }
 }
