@@ -20,7 +20,10 @@ pub fn main() anyerror!void {
         .layer = ply.Layer.front,
         .pos = rl.Vector2.init(0, 0),
         .texture = rl.loadTexture("resources/character/ratt.png"),
+        .speed = 15,
     };
+
+    var offset = rl.Vector2.init(0, 0);
 
     defer rat_player.texture.unload();
 
@@ -46,6 +49,8 @@ pub fn main() anyerror!void {
         dist = rat_player.pos.add(camera.target.negate());
         len = dist.length();
 
+        offset = rat_player.pos.scale(0.1255);
+
         speed = uty.lerp(0, len, 0.15);
 
         if (len < 6) {
@@ -67,17 +72,17 @@ pub fn main() anyerror!void {
 
         switch (rat_player.layer) {
             .back => {
-                bg.depth(back, rl.Vector2.init(0, 0), 3.5, 255);
+                bg.depth(back, rl.Vector2.init(0, 0).add(offset), 3.5, 255);
 
-                rat_player.texture.drawEx(rat_player.pos, 0, 3.5, rl.Color.white);
+                rat_player.texture.drawEx(rat_player.pos.add(rl.Vector2.init(-16 * 1.75, -32 * 1.75)), 0, 3.5, rl.Color.white);
 
                 bg.depth(front, rl.Vector2.init(0, 0), 4, 50);
             },
             .front => {
-                bg.depth(back, rl.Vector2.init(0, 0), 3.5, 255);
                 bg.depth(front, rl.Vector2.init(0, 0), 4, 255);
+                bg.depth(back, rl.Vector2.init(0, 0).add(offset), 3.5, 50);
 
-                rat_player.texture.drawEx(rat_player.pos, 0, 4, rl.Color.white);
+                rat_player.texture.drawEx(rat_player.pos.add(rl.Vector2.init(-16 * 2, -32 * 2)), 0, 4, rl.Color.white);
             },
         }
         //rat2.drawEx(camera.target, 0, 4, rl.Color.white);
