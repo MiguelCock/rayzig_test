@@ -20,26 +20,25 @@ pub const Layer = enum {
     }
 };
 
-pub const player = struct {
+pub const Player = struct {
     aabb: rl.Rectangle,
     texture: rl.Texture2D,
     pos: rl.Vector2,
     layer: Layer,
+    speed: f32,
+
+    pub fn controls(self: *Player) void {
+        if (rl.isKeyDown(rl.KeyboardKey.key_a)) {
+            self.pos.x -= self.speed;
+        }
+        if (rl.isKeyDown(rl.KeyboardKey.key_d)) {
+            self.pos.x += self.speed;
+        }
+        if (rl.isKeyDown(rl.KeyboardKey.key_w)) {
+            self.pos.y -= self.speed;
+        }
+        if (rl.isKeyDown(rl.KeyboardKey.key_s)) {
+            self.pos.y += self.speed;
+        }
+    }
 };
-
-const speed: f32 = 15;
-
-pub fn controls(pos: *rl.Vector2) void {
-    if (rl.isKeyDown(rl.KeyboardKey.key_a)) {
-        pos.x -= speed;
-    }
-    if (rl.isKeyDown(rl.KeyboardKey.key_d)) {
-        pos.x += speed;
-    }
-    if (rl.isKeyDown(rl.KeyboardKey.key_w)) {
-        pos.y -= speed;
-    }
-    if (rl.isKeyDown(rl.KeyboardKey.key_s)) {
-        pos.y += speed;
-    }
-}
