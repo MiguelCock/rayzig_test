@@ -1,8 +1,30 @@
 const rl = @import("raylib");
 
+pub const Layer = enum {
+    back,
+    front,
+
+    pub fn change(self: *Layer) void {
+        if (rl.isKeyPressed(rl.KeyboardKey.key_e)) {
+            switch (self.*) {
+                .back => self.* = Layer.front,
+                .front => {},
+            }
+        }
+        if (rl.isKeyPressed(rl.KeyboardKey.key_q)) {
+            switch (self.*) {
+                .back => {},
+                .front => self.* = Layer.back,
+            }
+        }
+    }
+};
+
 pub const player = struct {
     aabb: rl.Rectangle,
     texture: rl.Texture2D,
+    pos: rl.Vector2,
+    layer: Layer,
 };
 
 const speed: f32 = 15;

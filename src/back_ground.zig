@@ -35,36 +35,12 @@ pub fn rockNoice(tex: rl.Texture2D) void {
     }
 }
 
-pub fn front(tex: rl.Texture2D, offset: rl.Vector2) void {
+pub fn depth(tex: rl.Texture2D, offset: rl.Vector2, scale: f32, alpha: u8) void {
     var i: f32 = 0;
     while (i < 16) {
         var j: f32 = 0;
         while (j < 6) {
-            tex.drawEx(rl.Vector2.init(i * 64, 384 + (j * 64)).add(offset), 0, 4, rl.Color.init(255, 255, 255, 60));
-            j += 1;
-        }
-        i += 1;
-    }
-}
-
-pub fn middle(tex: rl.Texture2D, offset: rl.Vector2) void {
-    var i: f32 = 0;
-    while (i < 16) {
-        var j: f32 = 0;
-        while (j < 6) {
-            tex.drawEx(rl.Vector2.init(i * 16 * 3.5, 384 + (j * 16 * 3.5)).add(offset), 0, 3.5, rl.Color.init(255, 255, 255, 120));
-            j += 1;
-        }
-        i += 1;
-    }
-}
-
-pub fn back(tex: rl.Texture2D, offset: rl.Vector2) void {
-    var i: f32 = 0;
-    while (i < 16) {
-        var j: f32 = 0;
-        while (j < 6) {
-            tex.drawEx(rl.Vector2.init(i * 16 * 3, 384 + (j * 16 * 3)).add(offset), 0, 3, rl.Color.white);
+            tex.drawEx(rl.Vector2.init(i * 16 * scale, 384 + (j * 16 * scale)).add(offset), 0, scale, rl.Color.init(255, 255, 255, alpha));
             j += 1;
         }
         i += 1;

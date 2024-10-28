@@ -17,13 +17,6 @@ pub fn main() anyerror!void {
     const rat2 = rl.loadTexture("resources/character/rati.png");
     defer rat2.unload();
 
-    //const green = rl.loadTexture("resources/map_tiles/green_2.png");
-    //defer green.unload();
-    //const yellow = rl.loadTexture("resources/map_tiles/yellow_2.png");
-    //defer yellow.unload();
-    //const rock = rl.loadTexture("resources/map_tiles/rock.png");
-    //defer rock.unload();
-
     const back = rl.loadTexture("resources/tests/back.png");
     defer back.unload();
     const middle = rl.loadTexture("resources/tests/middle.png");
@@ -32,6 +25,7 @@ pub fn main() anyerror!void {
     defer front.unload();
 
     var rat_pos = rl.Vector2.init(0, 0);
+    var rat_layer = ply.Layer.front;
 
     var camera = rl.Camera2D{
         .offset = rl.Vector2.init(screenWidth / 2, screenHeight / 2),
@@ -56,6 +50,7 @@ pub fn main() anyerror!void {
             camera.target = camera.target.add(dist.normalize().scale(speed));
         }
 
+        rat_layer.change();
         ply.controls(&rat_pos);
 
         rl.beginDrawing();
@@ -66,12 +61,21 @@ pub fn main() anyerror!void {
 
         rl.clearBackground(rl.Color.white);
 
-        bg.back(back, rl.Vector2.init(0, 0));
-        bg.middle(middle, rl.Vector2.init(0, 0));
-        bg.front(front, rl.Vector2.init(0, 0));
+        switch (rat_layer) {
+            .back => {
+                bg.depth(back, rl.Vector2.init(0, 0), 3, 255);
 
-        rat2.drawEx(camera.target, 0, 4, rl.Color.white);
+                rat.drawEx(rat_pos, 0, 3, rl.Color.white);
 
-        rat.drawEx(rat_pos, 0, 4, rl.Color.white);
+                bg.depth(front, rl.Vector2.init(0, 0), 4, 150);
+            },
+            .front => {
+                bg.depth(back, rl.Vector2.init(0, 0), 3, 255);
+                bg.depth(front, rl.Vector2.init(0, 0), 4, 150);
+
+                rat.drawEx(rat_pos, 0, 4, rl.Color.white);
+            },
+        }
+        //rat2.drawEx(camera.target, 0, 4, rl.Color.white);
     }
 }
