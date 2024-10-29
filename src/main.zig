@@ -1,11 +1,12 @@
+const std = @import("std");
 const rl = @import("raylib");
 const bg = @import("back_ground.zig");
 const ply = @import("player.zig");
 const uty = @import("utility.zig");
 
 pub fn main() anyerror!void {
-    const screenWidth = 1020;
-    const screenHeight = 768;
+    const screenWidth = 1920;
+    const screenHeight = 980;
 
     rl.initWindow(screenWidth, screenHeight, "rat example");
     defer rl.closeWindow();
@@ -45,6 +46,8 @@ pub fn main() anyerror!void {
     var len: f32 = 0;
     var speed: f32 = 10;
 
+    //rl.toggleFullscreen();
+
     while (!rl.windowShouldClose()) {
         dist = rat_player.pos.add(camera.target.negate());
         len = dist.length();
@@ -72,19 +75,19 @@ pub fn main() anyerror!void {
 
         switch (rat_player.layer) {
             .back => {
-                bg.depth(back, rl.Vector2.init(0, 0).add(offset), 3.5, 255);
+                bg.perlingMap(back, rl.Vector2.init(0, 0).add(offset), 3.5, 255);
 
                 rat_player.texture.drawEx(rat_player.pos.add(rl.Vector2.init(-16 * 1.75, -32 * 1.75)), 0, 3.5, rl.Color.white);
 
-                bg.depth(front, rl.Vector2.init(0, 0), 4, 50);
+                bg.perlingMap(front, rl.Vector2.init(0, 0), 4, 150);
             },
             .front => {
-                bg.depth(front, rl.Vector2.init(0, 0), 4, 255);
-                bg.depth(back, rl.Vector2.init(0, 0).add(offset), 3.5, 50);
+                bg.perlingMap(back, rl.Vector2.init(0, 0).add(offset), 3.5, 255);
+                bg.perlingMap(front, rl.Vector2.init(0, 0), 4, 255);
 
                 rat_player.texture.drawEx(rat_player.pos.add(rl.Vector2.init(-16 * 2, -32 * 2)), 0, 4, rl.Color.white);
             },
         }
-        //rat2.drawEx(camera.target, 0, 4, rl.Color.white);
+        rat2.drawEx(camera.target, 0, 4, rl.Color.white);
     }
 }
