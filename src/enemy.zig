@@ -1,3 +1,5 @@
+//const std = @import("std");
+
 const rl = @import("raylib");
 const ly = @import("layer.zig");
 const uty = @import("utility.zig");
@@ -12,14 +14,18 @@ pub const Enemy = struct {
     layer: ly.Layer,
     speed: f32,
 
-    pub fn draw(self: *Enemy, player: ply.Player, offset: rl.Vector2) void {
-        switch (player.layer) {
-            .back => bg.draw(self.*.pos.x, self.*.pos.y, self.*.texture, offset, 3.5, 255),
-            .front => bg.draw(self.*.pos.x, self.*.pos.y, self.*.texture, offset, 4, 255),
-        }
-    }
+    //pub fn draw(self: *Enemy, player: ply.Player, offset: rl.Vector2) void {
+    //    switch (player.layer) {
+    //        .back => bg.draw(self.*.pos.x, self.*.pos.y, self.*.texture, offset, 3.5, 255),
+    //        .front => bg.draw(self.*.pos.x, self.*.pos.y, self.*.texture, offset, 4, 255),
+    //    }
+    //}
 
-    pub fn movement(self: *Enemy, player: rl.Vector2) void {
-        self.pos = player.add(self.pos.invert()).normalize().scale(5);
+    pub fn movement(self: *Enemy, objective: rl.Vector2) void {
+        self.pos = self
+            .pos
+            .add(objective.add(self.pos.negate())
+            .normalize()
+            .scale(10.0));
     }
 };
