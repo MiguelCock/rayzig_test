@@ -1,7 +1,6 @@
 //const std = @import("std");
 
 const rl = @import("raylib");
-const ly = @import("layer.zig");
 const uty = @import("utility.zig");
 const ply = @import("player.zig");
 
@@ -11,7 +10,6 @@ pub const Enemy = struct {
     aabb: rl.Rectangle,
     texture: rl.Texture2D,
     pos: rl.Vector2,
-    layer: ly.Layer,
     speed: f32,
 
     //pub fn draw(self: *Enemy, player: ply.Player, offset: rl.Vector2) void {
@@ -26,6 +24,6 @@ pub const Enemy = struct {
             .pos
             .add(objective.add(self.pos.negate())
             .normalize()
-            .scale(10.0));
+            .scale(5.0));
     }
 };
