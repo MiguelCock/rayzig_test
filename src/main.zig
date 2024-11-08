@@ -8,7 +8,7 @@ const enm = @import("enemy.zig");
 const uty = @import("utility.zig");
 
 pub fn main() anyerror!void {
-    const screenWidth = 1920;
+    const screenWidth = 1800;
     const screenHeight = 900;
 
     rl.initWindow(screenWidth, screenHeight, "rat example");
@@ -41,12 +41,14 @@ pub fn main() anyerror!void {
     var pik = itm.Item{
         .texture = rl.loadTexture("resources/items/pik.png"),
         .pos = rl.Vector2.init(0, 0),
-        .timer = 1000,
+        .timer = 100,
         .use = false,
     };
 
     defer pik.texture.unload();
 
+    const background = rl.loadTexture("resources/background/background.png");
+    defer background.unload();
     const back = rl.loadTexture("resources/tests/back.png");
     defer back.unload();
     const middle = rl.loadTexture("resources/tests/middle.png");
@@ -89,16 +91,17 @@ pub fn main() anyerror!void {
         rl.beginDrawing();
         defer rl.endDrawing();
 
-        camera.begin();
-        defer camera.end();
+        //rl.clearBackground(rl.Color.white);
 
-        rl.clearBackground(rl.Color.white);
+        background.drawEx(rl.Vector2.init(0, 0), 0, 3, rl.Color.white);
 
         if (rl.isMouseButtonPressed(rl.MouseButton.mouse_button_left)) pik.use = true;
 
+        camera.begin();
+        defer camera.end();
+
         switch (rat_player.layer) {
             .back => {
-                bg.perlingMap(middle, rl.Vector2.init(0, 0).add(offset2), 3, 255, 0.6);
                 bg.perlingMap(back, rl.Vector2.init(0, 0).add(offset), 3.5, 255, 0.55);
 
                 frog_enemy.texture.drawEx(frog_enemy.pos.add(rl.Vector2.init(-16 * 1.75, -16 * 1.75)), 0, 3.5, rl.Color.white);
@@ -112,7 +115,6 @@ pub fn main() anyerror!void {
                 bg.perlingMap(front, rl.Vector2.init(0, 0), 4, 150, 0.5);
             },
             .front => {
-                bg.perlingMap(middle, rl.Vector2.init(0, 0).add(offset2), 3, 255, 0.6);
                 bg.perlingMap(back, rl.Vector2.init(0, 0).add(offset), 3.5, 255, 0.55);
                 bg.perlingMap(front, rl.Vector2.init(0, 0), 4, 255, 0.5);
 

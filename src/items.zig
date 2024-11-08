@@ -14,7 +14,7 @@ pub const Item = struct {
 
     pub fn draw(self: *Item, offset: rl.Vector2, scale: f32, alpha: u8) void {
         if (i < self.timer) {
-            self.*.texture.drawEx(offset, i, scale, rl.Color.init(255, 255, 255, alpha));
+            self.*.texture.drawEx(offset, i - 60, scale, rl.Color.init(255, 255, 255, alpha));
             i += 10;
         }
 
